@@ -1,3 +1,19 @@
+const gameInfoDiv = document.getElementById("gameInfo");
+let playerScore = 0;
+let computerScore = 0;
+let i = 0;
+let humanChoice;
+let computerChoice = "";
+let result;
+
+gameInfoDiv.innerHTML += "<p>Game starts</p>";
+gameInfoDiv.innerHTML += `<p>Round ${i + 1}</p>`;
+computerChoice = getComputerChoice();
+gameInfoDiv.innerHTML += `<p>Please pick one</p> <br>######`;
+
+
+// verified code
+
 function getComputerChoice() {
   let a = Math.random();
   if (a > 0.66) {
@@ -12,23 +28,26 @@ function getComputerChoice() {
   }
 }
 
-function singleRound(playerSelection, computerSelection) {
+function playRound(humanChoice, computerChoice) {
   if (
-    (playerSelection === "rock" && computerSelection === "paper") ||
-    (playerSelection === "paper" && computerSelection === "scissors") ||
-    (playerSelection === "scissors" && computerSelection === "rock")
+    (humanChoice === "rock" && computerChoice === "paper") ||
+    (humanChoice === "paper" && computerChoice === "scissors") ||
+    (humanChoice === "scissors" && computerChoice === "rock")
   ) {
-    gameInfoDiv.innerHTML += `You lose! ${computerSelection} beats ${playerSelection}`;
+    gameInfoDiv.innerHTML += `Computer picked ${computerChoice} <br><br>
+    You lose! ${computerChoice} beats ${humanChoice} <br>`;
     return "You lose";
   } else if (
-    (playerSelection === "rock" && computerSelection === "scissors") ||
-    (playerSelection === "paper" && computerSelection === "rock") ||
-    (playerSelection === "scissors" && computerSelection === "paper")
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissors" && computerChoice === "paper")
   ) {
-    gameInfoDiv.innerHTML += `You win! ${playerSelection} beats ${computerSelection}`;
+    gameInfoDiv.innerHTML += `Computer picked ${computerChoice} <br><br>
+    You win! ${humanChoice} beats ${computerChoice} <br>`;
     return "You win";
-  } else if (playerSelection === computerSelection) {
-    gameInfoDiv.innerHTML += `You both picked ${computerSelection}, tie!`;
+  } else if (humanChoice === computerChoice) {
+    gameInfoDiv.innerHTML += `Computer picked ${computerChoice} <br><br>
+    You both picked ${computerChoice}, tie! <br>`;
     return "Tie";
   }
 }
@@ -45,50 +64,37 @@ function calcScore() {
   i++;
 }
 
-const gameInfoDiv = document.getElementById("gameInfo");
-let playerScore = 0;
-let computerScore = 0;
-let i = 0;
-let playerSelection;
-let computerSelection = "";
-let result;
-
 document.addEventListener("DOMContentLoaded", function () {
   const rock = document.getElementById("rock");
   rock.addEventListener("click", () => {
-    playerSelection = "rock";
-    gameInfoDiv.innerHTML += `<p>player picked ${playerSelection}</p>`;
-    result = singleRound(playerSelection, computerSelection);
+    humanChoice = "rock";
+    gameInfoDiv.innerHTML += `<p>Player picked ${humanChoice}</p>`;
+    result = playRound(humanChoice, computerChoice);
     calcScore();
     reset();
   });
 
   const paper = document.getElementById("paper");
   paper.addEventListener("click", () => {
-    playerSelection = "paper";
-    gameInfoDiv.innerHTML += `<p>player picked ${playerSelection}</p>`;
-    result = singleRound(playerSelection, computerSelection);
+    humanChoice = "paper";
+    gameInfoDiv.innerHTML += `<p>Player picked ${humanChoice}</p>`;
+    result = playRound(humanChoice, computerChoice);
     calcScore();
     reset();
   });
 
   const scissors = document.getElementById("scissors");
   scissors.addEventListener("click", () => {
-    playerSelection = "scissors";
-    gameInfoDiv.innerHTML += `<p>player picked ${playerSelection}</p>`;
-    result = singleRound(playerSelection, computerSelection);
+    humanChoice = "scissors";
+    gameInfoDiv.innerHTML += `<p>Player picked ${humanChoice}</p>`;
+    result = playRound(humanChoice, computerChoice);
     calcScore();
     reset();
   });
 });
 
 function reset() {
-  gameInfoDiv.innerHTML += `<p>round ${i + 1}</p>`;
-  computerSelection = getComputerChoice();
-  gameInfoDiv.innerHTML += `<p>please pick one</p>`;
+  gameInfoDiv.innerHTML += `<p>Round ${i + 1}</p>`;
+  computerChoice = getComputerChoice();
+  gameInfoDiv.innerHTML += `<p>Please pick one</p> <br>######`;
 }
-
-gameInfoDiv.innerHTML += "<p>game starts</p>";
-gameInfoDiv.innerHTML += `<p>round ${i + 1}</p>`;
-computerSelection = getComputerChoice();
-gameInfoDiv.innerHTML += `<p>please pick one</p>`;
